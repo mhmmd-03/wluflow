@@ -3,10 +3,8 @@ const puppeteer = require('puppeteer');
 const qs = require('qs');
 
 const apiUrl = 'https://loris.wlu.ca/register/ssb/registration/';
-const getCourseInfo1 = 'https://loris.wlu.ca/register/ssb/searchResults/searchResults?txt_subjectcoursecombo=BU111&txt_term=202405&pageOffset=0&pageMaxSize=50&sortColumn=subjectDescription&sortDirection=asc';
-const getCourseInfo2 = 'https://loris.wlu.ca/register/ssb/searchResults/searchResults?txt_subjectcoursecombo=BU231&txt_term=202405&pageOffset=0&pageMaxSize=50&sortColumn=subjectDescription&sortDirection=asc';
-const getCourses = 'https://loris.wlu.ca/register/ssb/courseSearchResults/courseSearchResults?txt_term=202405&startDatepicker=&endDatepicker=&uniqueSessionId=q87811696297527941&pageOffset=0&pageMaxSize=10&sortColumn=subjectDescription&sortDirection=asc';
-const courseSearchURL = 'https://loris.wlu.ca/register/ssb/searchResults/searchResults';
+const coursesURL = 'https://loris.wlu.ca/register/ssb/courseSearchResults/courseSearchResults/';
+const courseDetailsURL = 'https://loris.wlu.ca/register/ssb/searchResults/searchResults/';
 
 // getCookies(page) takes a page from a puppeteer browser, and performs certain actions to get to the required LORIS pages.
 // It then returns all browser cookies and returns them in a list
@@ -73,7 +71,37 @@ async function getCourseInfo(courseCode, term, axiosInstance) {
     };
 
     try {
-        const response = await axiosInstance.post(courseSearchURL, payloadString, config);
+        const response = await axiosInstance.post(courseDetailsURL, payloadString, config);
+        console.log(response.data);
+    } catch (error) {
+        console.error(error);
+    }
+}
+//
+
+// getCoursesByPage(term, pageOffset, pageMaxSize, axiosInstance), takes a string term, an int pageOffset to determine which page to get courses from,
+// an int pageMaxSize to set how many courses are listed on each page, and an axios axiosInstance
+// Usage: getCoursesByPage('202405', 0, 50, axiosInstance)
+async function getCoursesByPage(term, pageOffset, pageMaxSize, axiosInstance) {
+    await reset(axiosInstance);
+    const payload = {
+        txt_term: term,
+        pageOffset: pageOffset,
+        pageMaxSize: pageMaxSize,
+        sortColumn: 'subjectDescription',
+        sortDirection: 'asc'
+    }
+
+    const payloadString = qs.stringify(payload);
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    };
+
+    try {
+        const response = await axiosInstance.post(coursesURL, payloadString, config);
         console.log(response.data);
     } catch (error) {
         console.error(error);
@@ -95,32 +123,5 @@ async function getCourseInfo(courseCode, term, axiosInstance) {
 
     await getCourseInfo('BU111', '202405', axiosInstance);
     await getCourseInfo('BU121', '202405', axiosInstance);
-    /*
-
-    
-    axiosInstance.get(endpointUrl)
-        .then((response) => {
-            console.log(response.data);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-
-    axiosInstance.post('https://loris.wlu.ca/register/ssb/courseSearch/resetDataForm', 'resetCourses=false&resetSections=true')
-        .then((response) => {
-            console.log(response.data);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-
-        axiosInstance.get(endpointUrl2)
-        .then((response) => {
-            console.log(response.data);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    */
-
+    await getCoursesByPage('202405', 0, 50, axiosInstance);
 })();
