@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # important files
-/src/scripts/firebase/config.js
+/src/scripts/firebase/
