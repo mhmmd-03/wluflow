@@ -1,7 +1,6 @@
 // INSTRUCTIONS:
 // Adjust cookies is you are changing the term you want to get CRNs for
-// You can adjust the term using the predefined constants, or add more constants
-// As needed
+// You can adjust the term using the predefined constants, or add more constants as needed
 // For support: contact qfaizaan@gmail.com
 
 const axios = require("axios");
@@ -119,6 +118,8 @@ async function getCourseCRNs(courseCode, term, axiosInstance) {
 
 // getCoursesByPage(term, pageOffset, pageMaxSize, axiosInstance), takes a string term, an int pageOffset to determine which page to get courses from,
 // an int pageMaxSize to set how many courses are listed on each page, and an axios axiosInstance
+// Note that if your pageMaxSize is set to length x, you'll need to increment your pageOffset by x in a loop to get more courses iteratively, otherwise
+// you will get repeated items
 // Usage: getCoursesByPage('202405', 0, 50, axiosInstance)
 async function getCoursesByPage(term, pageOffset, pageMaxSize, axiosInstance) {
   await reset(axiosInstance);
@@ -160,6 +161,8 @@ async function getCoursesByPage(term, pageOffset, pageMaxSize, axiosInstance) {
 }
 //
 
+// getCoursesTotalCount(term, axiosInstance) takes in a string/constant term and an axios axiosInstance,
+// returning the number of total courses in Loris for that term
 async function getCoursesTotalCount(term, axiosInstance) {
   await reset(axiosInstance);
   const payload = {
@@ -190,7 +193,9 @@ async function getCoursesTotalCount(term, axiosInstance) {
     console.error(error);
   }
 }
+//
 
+// Replace this driver code with your code to access the Loris API
 (async () => {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
@@ -216,3 +221,4 @@ async function getCoursesTotalCount(term, axiosInstance) {
   }
 
 })();
+//
