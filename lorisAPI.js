@@ -6,7 +6,6 @@
 const axios = require("axios");
 const puppeteer = require("puppeteer");
 const qs = require("qs");
-const fs = require("fs");
 
 const FALL2023 = "202309"
 const WINTER2024 = "202401"
