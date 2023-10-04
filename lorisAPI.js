@@ -1,13 +1,13 @@
 // INSTRUCTIONS:
-// Adjust cookies is you are changing the term you want to get CRNs for
+// Adjust cookies if you are changing the term you want to get CRNs for
 // You can adjust the term using the predefined constants, or add more constants as needed
-// For support: contact qfaizaan@gmail.com
+// For support, contact: qfaizaan@gmail.com
 
 const axios = require("axios");
 const puppeteer = require("puppeteer");
 const qs = require("qs");
-import { database } from "./config";
-import { ref, child, update } from "firebase/database";
+const { database } = require("./config");
+const { ref, child, update } = require("firebase/database");
 
 const FALL2023 = "202309";
 const WINTER2024 = "202401";
