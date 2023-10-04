@@ -6,10 +6,15 @@
 const axios = require("axios");
 const puppeteer = require("puppeteer");
 const qs = require("qs");
+import { database } from "./config";
+import { ref, child, update } from "firebase/database";
 
-const FALL2023 = "202309"
-const WINTER2024 = "202401"
-const SPRING2024 = "202405"
+const FALL2023 = "202309";
+const WINTER2024 = "202401";
+const SPRING2024 = "202405";
+
+// UPDATE THIS REF FOR EACH TERM
+const TERM_REF = `/${FALL2023}/`;
 
 const apiUrl = "https://loris.wlu.ca/register/ssb/registration/";
 const coursesURL =
@@ -214,10 +219,18 @@ async function getCoursesTotalCount(term, axiosInstance) {
     const data = await getCoursesByPage(FALL2023, i * 500, 500, axiosInstance);
     for (d in data) {
       const data2 = await getCourseCRNs(data[d], FALL2023, axiosInstance);
+      if (data2 != []) {
+        const updates = {};
+        updates[TERM_REF + `/${data[d]}/`] = data2;
+        update(ref(database), updates);
+      } else {
+        console.log(
+          "Not adding course: " + data[d] + " because the CRN array is empty"
+        );
+      }
       console.log(data[d]);
-      console.log(data2)
+      console.log(data2);
     }
   }
-
 })();
 //
