@@ -12,10 +12,8 @@ const WINTER2024 = "202401"
 const SPRING2024 = "202405"
 
 const apiUrl = "https://loris.wlu.ca/register/ssb/registration/";
-const coursesURL =
-  "https://loris.wlu.ca/register/ssb/courseSearchResults/courseSearchResults/";
-const courseDetailsURL =
-  "https://loris.wlu.ca/register/ssb/searchResults/searchResults/";
+const coursesURL = "https://loris.wlu.ca/register/ssb/courseSearchResults/courseSearchResults/";
+const courseDetailsURL = "https://loris.wlu.ca/register/ssb/searchResults/searchResults/";
 
 // getCookies(page) takes a page from a puppeteer browser, and performs certain actions to get to the required LORIS pages.
 // It then returns all browser cookies and returns them in a list
